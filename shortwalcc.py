@@ -8,19 +8,28 @@ class interpreter():
     def interpret(code):
         
         if ' + ' in code: # not complex if statement
-                if '->' in code:
-                    return [code.split(' -> ')[1], int(code.split(' -> ')[0].split(' + ')[0]) + int(code.split(' -> ')[0].split(' + ')[1])]
-                elif '<-' in code:
-                    varname = code.split(' <- ')[0]
-                    result = int(code.split(' <- ')[1].split(' + ')[0]) + int(code.split(' <- ')[1].split(' + ')[1])
-                    return [varname, result]
-                code2 = code.split(' + ')
-                result = int(code2[0]) + int(code2[1])
-                return result
-        elif '->' and '<-' not in code and ' - ' in code:
-                code = code.split(' - ')
-                result = int(code[0]) - int(code[1])
-                return result
+            if '->' in code:
+                return [code.split(' -> ')[1], int(code.split(' -> ')[0].split(' + ')[0]) + int(code.split(' -> ')[0].split(' + ')[1])]
+            elif '<-' in code:
+                varname = code.split(' <- ')[0]
+                result = int(code.split(' <- ')[1].split(' + ')[0]) + int(code.split(' <- ')[1].split(' + ')[1])
+                return [varname, result]
+            code2 = code.split(' + ')
+            result = int(code2[0]) + int(code2[1])
+            return result
+        
+        elif ' - ' in code:    
+            if '->' in code:
+                varname = code.split(' -> ')[1]
+                result = int(code.split(' -> ')[0].split(' - ')[0]) - int(code.split(' -> ')[0].split(' - ')[1])
+                return [varname, result]
+            elif '<-' in code:
+                varname = code.split(' <- ')[0]
+                result = int(code.split(' <- ')[1].split(' - ')[0]) - int(code.split(' <- ')[1].split(' - ')[1])
+                return [varname, result]
+            code = code.split(' - ')
+            result = int(code[0]) - int(code[1])
+            return result
 
         elif '->' and '<-' not in code and ' / ' in code:
                 return int(code.split(' / ')[0]) / int(code.split(' / ')[1])
