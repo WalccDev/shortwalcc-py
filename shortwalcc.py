@@ -7,7 +7,13 @@ import sys
 class interpreter():
     def interpret(code):
         
-        if '->' and '<-' not in code and ' + ' in code: # complex if statement
+        if ' + ' in code: # not complex if statement
+                if '->' in code:
+                    return [code.split(' -> ')[1], int(code.split(' -> ')[0].split(' + ')[0]) + int(code.split(' -> ')[0].split(' + ')[1])]
+                elif '<-' in code:
+                    varname = code.split(' <- ')[0]
+                    result = int(code.split(' <- ')[1].split(' + ')[0]) + int(code.split(' <- ')[1].split(' + ')[1])
+                    return [varname, result]
                 code2 = code.split(' + ')
                 result = int(code2[0]) + int(code2[1])
                 return result
@@ -24,6 +30,10 @@ class interpreter():
                 return pow(int(code.split(' ^ ')[0]), int(code.split(' ^ ')[1]))
         elif '->' in code:
             parsed = code.split(' -> ')
+            if ' + ' in code:
+                return [parsed[1], int(parsed[0].split(' + ')[0]) + int(parsed[0].split(' + ')[1])]
+            elif ' - ' in code:
+                return [parsed[1], int(parsed[0].split(' - ')[0]) - int(parsed[0].split(' - ')[1])]
             parsed = [ parsed[1], parsed[0] ]
             return parsed
         elif '<-' in code:
@@ -49,14 +59,4 @@ class interpreter():
             elif '{' and '}' in code: # if function, treat as function  
                 return 'Not Implemented'
 
-
 i = interpreter
-print(i.interpret('1 -> a'))
-print(i.interpret('1 + 1'))
-print(i.interpret('a <- 1'))
-print(i.interpret('a <- { furret }'))
-print(i.interpret('a <- 1 + 1'))
-print(i.interpret('a <- 1 - 1'))
-print(i.interpret('3 - 1'))
-print(i.interpret('3 / 2'))
-print(i.interpret('2 * 2'))
