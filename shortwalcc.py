@@ -20,6 +20,8 @@ class interpreter():
                 return int(code.split(' / ')[0]) / int(code.split(' / ')[1])
         elif '->' and '<-' not in code and ' * ' in code:
                 return int(code.split(' * ')[0]) * int(code.split(' * ')[1])
+        elif '->' and '<-' not in code and ' ^ ' in code:
+                return pow(int(code.split(' ^ ')[0]), int(code.split(' ^ ')[1]))
         elif '->' in code:
             parsed = code.split(' -> ')
             parsed = [ parsed[1], parsed[0] ]
@@ -36,7 +38,12 @@ class interpreter():
 
                 elif ' - ' in code:
                     return [parsed[0], int(parsed[1].split(' - ')[0]) - int(parsed[1].split(' - ')[1])]
-                
+                elif ' / ' in code:
+                    return [parsed[0], int(parsed[1].split(' / ')[0]) / int(parsed[1].split(' / ')[1])]
+                elif ' * ' in code:
+                    return [parsed[0], int(parsed[1].split(' * ')[0]) * int(parsed[1].split(' * ')[1])]
+                elif ' ^ ' in code:
+                    return [parsed[0], pow(int(parsed[1].split(' ^ ')[0]), int(parsed[1].split(' ^ ')[1]))]
                 return parsed
             
             elif '{' and '}' in code: # if function, treat as function  
