@@ -2,11 +2,8 @@
 # Compatible with shortwalcc v1.0
 # GPLv3
 # @furretra1n
-import os
-import sys
 class interpreter():
-    def interpret(code):
-        
+    def interpret(code): 
         if ' + ' in code: # not complex if statement
             if '->' in code:
                 return [code.split(' -> ')[1], int(code.split(' -> ')[0].split(' + ')[0]) + int(code.split(' -> ')[0].split(' + ')[1])]
@@ -16,8 +13,7 @@ class interpreter():
                 return [varname, result]
             code2 = code.split(' + ')
             result = int(code2[0]) + int(code2[1])
-            return result
-        
+            return result 
         elif ' - ' in code:    
             if '->' in code:
                 varname = code.split(' -> ')[1]
@@ -26,15 +22,32 @@ class interpreter():
             elif '<-' in code:
                 varname = code.split(' <- ')[0]
                 result = int(code.split(' <- ')[1].split(' - ')[0]) - int(code.split(' <- ')[1].split(' - ')[1])
-                return [varname, result]
+                return ifFloat(varname, result)
             code = code.split(' - ')
             result = int(code[0]) - int(code[1])
             return result
-
-        elif '->' and '<-' not in code and ' / ' in code:
-                return int(code.split(' / ')[0]) / int(code.split(' / ')[1])
-        elif '->' and '<-' not in code and ' * ' in code:
-                return int(code.split(' * ')[0]) * int(code.split(' * ')[1])
+        def ifFloat(varname, result):
+            if result.is_integer() == True:
+                    result = int(result)
+            return [varname, result]
+        if ' / ' in code:
+            if '->' in code:
+                varname = code.split(' -> ')[1]
+                result = float(code.split(' -> ')[0].split(' / ')[0]) / float(code.split(' -> ')[0].split(' / ')[1])
+                return ifFloat(varname, result)
+            if '<-' in code:
+                varname = code.split(' <- ')[0]
+                result = float(code.split(' <- ')[1].split(' / ')[0]) / float(code.split(' <- ')[1].split(' / ')[1])
+                return ifFloat(varname, result)
+        elif ' * ' in code:
+            if '->' in code:
+                varname = code.split(' -> ')[1]
+                result = float(code.split(' -> ')[0].split(' * ')[0]) * float(code.split(' -> ')[0].split(' * ')[1])
+                return ifFloat(varname, result)
+            if '<-' in code:
+                varname = code.split(' <- ')[0]
+                result = float(code.split(' <- ')[1].split(' * ')[0]) * float(code.split(' <- ')[1].split(' * ')[1])
+                return ifFloat(varname, result)
         elif '->' and '<-' not in code and ' ^ ' in code:
                 return pow(int(code.split(' ^ ')[0]), int(code.split(' ^ ')[1]))
         elif '->' in code:
